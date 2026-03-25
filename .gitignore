@@ -1,4 +1,4 @@
 edf
 rate
 *.out
-output/
+*.o

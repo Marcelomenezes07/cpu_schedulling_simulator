@@ -28,9 +28,11 @@ typedef struct {
 } ExecutionBlock;
 
 
-int choose_task(int modo, Task *tasks, int task_count);
-void release_tasks(Task tasks[], int task_count, int current_time);
-void execute_task(Task tasks[], int selected_index);
+int choose_task(int modo, Task *tasks, int task_count); // escolhe a tarefa a ser executada com base no modo (RATE ou EDF) e nas tarefas disponíveis. e retorna o indice da tarefa escolhida
+int release_tasks(Task tasks[], int task_count, int current_time); // verifca se tem codigo pra ser executado verifica se o retorno for diferente de -1 ele retornou um indice que perdeu a deadline
+void execute_task(Task tasks[], int selected_index); // executa um ciclo de CPU para a tarefa selecionada, reduzindo seu tempo restante
+void close_block(ExecutionBlock log[], int *log_count, Task tasks[],
+                 int task_index, int start_time, int end_time, char status) ; // fecha um bloco de execução, seja de uma tarefa ou de idle, e registra no log
 
 
 
