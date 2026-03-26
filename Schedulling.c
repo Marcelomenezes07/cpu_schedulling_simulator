@@ -74,18 +74,19 @@ void execute_task(Task tasks[], int selected_index) {
 void close_block(ExecutionBlock log[], int *log_count, Task tasks[],
                  int task_index, int start_time, int end_time, char status) {
 
+
+    Task task = tasks[task_index];
     if (start_time == -1 || end_time <= start_time) {
         return;
     }
 
-    // 
     if (task_index == -1) {
         strcpy(log[*log_count].name, "idle");
     } else {
         strcpy(log[*log_count].name, tasks[task_index].name);
     }
 
-    log[*log_count].start_time = start_time;
+    log[*log_count].start_time = start_time; // faço isso pra pegar o tempo que ele comecou a ser executado
     log[*log_count].end_time = end_time;
     log[*log_count].duration = end_time - start_time;
     log[*log_count].status = status;
@@ -93,3 +94,25 @@ void close_block(ExecutionBlock log[], int *log_count, Task tasks[],
     (*log_count)++;
 }
 
+
+
+char get_status(Task task, int close_reason) {
+
+    // Deadline perdido: periodo chegou mas ainda tinha trabalho
+    if (close_reason == 1) {
+        return 'L';
+    }
+
+    // Fim da simulacao com trabalho pendente: processo foi morto
+    if (close_reason == 2 && task.remaining > 0) {
+        return 'K';
+    }
+
+    // Terminou o burst completamente
+    if (task.remaining == 0) {
+        return 'F';
+    }
+
+    // Ainda tinha trabalho mas foi preemptado por outra task
+    return 'H';
+}

@@ -54,9 +54,9 @@ void get_tasks(Task *tasks, FILE *routefile, int *task_count) {
         tasks[i].next_release = 0;
         tasks[i].abs_deadline = 0;
 
-        tasks[i].lost_deadlines = NULL; 
-        tasks[i].complete_execution = NULL;
-        tasks[i].killed = NULL;
+        tasks[i].lost_deadlines = 0; 
+        tasks[i].complete_execution = 0;
+        tasks[i].killed = 0;
 
         i++;
     }
@@ -69,10 +69,11 @@ void get_tasks(Task *tasks, FILE *routefile, int *task_count) {
 // saida
 void print_execution_blocks(ExecutionBlock log[], int log_count, int modo) {
     if (modo == 0) {
-        printf("EXECUTION BY RATE\n\n");
+        printf("EXECUTION BY RATE\n");
     } else {
-        printf("EXECUTION BY EDF\n\n");
+        printf("EXECUTION BY EDF\n");
     }
+    printf("\n"); // linha em branco após o header — spec mostra isso
 
     for (int i = 0; i < log_count; i++) {
         if (strcmp(log[i].name, "idle") == 0) {
@@ -86,19 +87,19 @@ void print_execution_blocks(ExecutionBlock log[], int log_count, int modo) {
     }
 }
 
-
 void print_task_report(Task tasks[], int task_count) {
-    printf("\nLOST DEADLINES\n\n");
+    // linha em branco ANTES do header, mas NÃO depois — spec não tem blank line entre header e entries
+    printf("\nLOST DEADLINES\n");
     for (int i = 0; i < task_count; i++) {
         printf("[%s] %d\n", tasks[i].name, tasks[i].lost_deadlines);
     }
 
-    printf("\nCOMPLETE EXECUTION\n\n");
+    printf("\nCOMPLETE EXECUTION\n");
     for (int i = 0; i < task_count; i++) {
         printf("[%s] %d\n", tasks[i].name, tasks[i].complete_execution);
     }
 
-    printf("\nKILLED\n\n");
+    printf("\nKILLED\n");
     for (int i = 0; i < task_count; i++) {
         printf("[%s] %d\n", tasks[i].name, tasks[i].killed);
     }

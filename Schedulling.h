@@ -33,7 +33,7 @@ int release_tasks(Task tasks[], int task_count, int current_time); // verifca se
 void execute_task(Task tasks[], int selected_index); // executa um ciclo de CPU para a tarefa selecionada, reduzindo seu tempo restante
 void close_block(ExecutionBlock log[], int *log_count, Task tasks[],
                  int task_index, int start_time, int end_time, char status) ; // fecha um bloco de execução, seja de uma tarefa ou de idle, e registra no log
-
+char get_status(Task task, int close_reason);
 
 
 #endif
