@@ -75,7 +75,8 @@ void close_block(ExecutionBlock log[], int *log_count, Task tasks[],
                  int task_index, int start_time, int end_time, char status) {
 
 
-    Task task = tasks[task_index];
+    // FIX: antes fazia "Task task = tasks[task_index]" aqui em cima,
+    // mas se task_index == -1 isso acessa tasks[-1] (undefined behavior)
     if (start_time == -1 || end_time <= start_time) {
         return;
     }
